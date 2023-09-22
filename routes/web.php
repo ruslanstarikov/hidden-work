@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FreelancerController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::controller(AuthController::class)
@@ -17,5 +18,7 @@ Route::controller(AuthController::class)
         Route::post('forgot', 'forgot')->name('password.forgot');
         Route::get('reset-password/{token}', 'resetForm')->name('password.reset');
         Route::post('reset/{token}', 'reset')->name('password.update');
-        Route::get('profile', 'profile')->name('profile');
     });
+
+Route::get('profile', [FreelancerController::class, 'profileForm'])->name('profile');
+Route::post('profile', [FreelancerController::class, 'profile'])->name('freelancer.profile.update');
