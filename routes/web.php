@@ -20,5 +20,6 @@ Route::controller(AuthController::class)
         Route::post('reset/{token}', 'reset')->name('password.update');
     });
 
-Route::get('profile', [FreelancerController::class, 'profileForm'])->name('profile');
-Route::post('profile', [FreelancerController::class, 'profile'])->name('freelancer.profile.update');
+Route::get('freelancer', [FreelancerController::class, 'freelancerForm'])->name('freelancer');
+Route::post('freelancer', [FreelancerController::class, 'update'])->name('freelancer.update');
+Route::get('/skills/search', [FreelancerController::class, 'searchSkills'])->name('skills.search');

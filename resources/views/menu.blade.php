@@ -46,9 +46,9 @@
                 <!-- ... other menu items ... -->
 
                 @if(Auth::check()) <!-- Check if user is logged in -->
-                <a href="{{ route('profile') }}" class="text-white hover:text-secondary-300 transition duration-300 mx-1 lg:mx-2 flex items-center">
+                <a href="{{ route('freelancer') }}" class="text-white hover:text-secondary-300 transition duration-300 mx-1 lg:mx-2 flex items-center">
                     <span>Profile</span>
-                    <!-- Font Awesome Profile icon -->
+                    <!-- Font Awesome Freelancer icon -->
                     <i class="fas fa-user-circle ml-1"></i>
                 </a>
                 @else
