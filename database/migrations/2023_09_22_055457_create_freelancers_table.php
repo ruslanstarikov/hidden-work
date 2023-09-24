@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('freelancers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique(); // Assuming each freelancer corresponds to a user
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('profile_picture')->nullable();
             $table->string('tagline')->nullable();
             $table->text('about')->nullable();
-            $table->text('skills');
             $table->string('portfolio_url')->nullable();
             $table->decimal('hourly_rate', 8, 2)->nullable();
             $table->timestamps();
@@ -28,9 +27,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('freelancers');

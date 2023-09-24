@@ -23,3 +23,8 @@ Route::controller(AuthController::class)
 Route::get('freelancer', [FreelancerController::class, 'freelancerForm'])->name('freelancer');
 Route::post('freelancer', [FreelancerController::class, 'update'])->name('freelancer.update');
 Route::get('/skills/search', [FreelancerController::class, 'searchSkills'])->name('skills.search');
+Route::post('/skill/{id}', [FreelancerController::class, 'addSkill'])->name('skill.add');
+Route::delete('/skill/{id}', [FreelancerController::class, 'removeSkill'])->name('skill.add');
+Route::get('/skills/current', [FreelancerController::class, 'currentSkills'])->name('skills.current');
+Route::post('/freelancer/image', [FreelancerController::class, 'updateImage'])->name('freelancer.update.image');
+Route::get('/freelancer/image', [FreelancerController::class, 'getImage'])->name('freelancer.get.image');
