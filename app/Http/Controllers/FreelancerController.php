@@ -11,13 +11,13 @@ class FreelancerController extends Controller
 {
     public function freelancerForm(Request $request)
     {
-        $request->session()->put('selectedSkills', []);
+        $request->session()->put('freelancer.skills', []);
         $freelancer = Freelancer::where('user_id', $request->user()->id)->first();
         if ($freelancer) {
-            $request->session()->put('selectedSkills', $freelancer->skills->pluck('id')->toArray());
+            $request->session()->put('freelancer.skills', $freelancer->skills->pluck('id')->toArray());
         }
 
-        $selectedSkills = $request->session()->get('selectedSkills', []);
+        $selectedSkills = $request->session()->get('freelancer.skills', []);
         $skills = Skill::whereIn('id', $selectedSkills)->get();
 
         return view('freelancer.form', ['skills' => $skills, 'freelancer' => $freelancer]);
@@ -46,53 +46,12 @@ class FreelancerController extends Controller
         $freelancer->portfolio_url = $data['portfolio_url'];
         $freelancer->hourly_rate = $data['rates'];
         $freelancer->save();
-        $skills = $request->session()->get('selectedSkills', []);
-        // Sync the skills with the freelancer
+        $skills = $request->session()->get('freelancer.skills', []);
         if ($skills) {
             $freelancer->skills()->sync($skills);
         }
         $request->session()->flash('success', 'Profile updated successfully');
         return view('freelancer.form', ['skills' => $freelancer->skills, 'freelancer' => $freelancer]);
-    }
-    public function searchSkills(Request $request)
-    {
-        $query = $request->input('q');
-        if(!$query) {
-            return response()->json([]);
-        }
-        $skills = Skill::where('name', 'like', "%$query%")->take(10)->get();
-
-        return view('freelancer.skills-dropdown', ['skills' => $skills]);
-    }
-
-    public function addSkill(int $id, Request $request)
-    {
-        $selectedSkills = $request->session()->get('selectedSkills', []);
-        if(!in_array($id, $selectedSkills)) {
-            $selectedSkills[] = $id;
-            $request->session()->put('selectedSkills', $selectedSkills);
-        }
-        $skills = Skill::whereIn('id', $selectedSkills)->get();
-        return view('freelancer.top-skill', ['skills' => $skills]);
-    }
-
-    public function removeSkill(int $id, Request $request)
-    {
-        $selectedSkills = $request->session()->get('selectedSkills', []);
-        if (($key = array_search($id, $selectedSkills)) !== false) {
-            unset($selectedSkills[$key]);
-        }
-        $request->session()->put('selectedSkills', $selectedSkills);
-        $skills = Skill::whereIn('id', $selectedSkills)->get();
-        return view('freelancer.top-skill', ['skills' => $skills]);
-    }
-
-    public function currentSkills(Request $request)
-    {
-        $selectedSkills = $request->session()->get('selectedSkills', []);
-        $skills = Skill::whereIn('id', $selectedSkills)->get();
-
-        return view('freelancer.top-skill', ['skills' => $skills]);
     }
 
     public function getImage(Request $request)
@@ -106,8 +65,6 @@ class FreelancerController extends Controller
 
     public function updateImage(Request $request)
     {
-//        $request->validate(['profile_picture' => 'required|image|max:2048']);
-
         $path = $request->file('profile_picture')->store('profile_images');
 
         $freelancer = $request->user()->freelancer;

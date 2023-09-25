@@ -2,7 +2,7 @@
     <label for="skills" class="block text-sm font-medium text-gray-700">Skills</label>
     <div class="relative">
         <input type="text" id="skills-input" name="q" placeholder="Start typing a skill..." class="form-input"
-               hx-get="/skills/search"
+               hx-get="/skills/search/{{ $domain }}"
                hx-trigger="keyup changed delay:200ms"
                hx-indicator="#loading-indicator"
                hx-swap="#skills-dropdown" hx-target="#skills-dropdown"
@@ -11,5 +11,5 @@
         <span id="loading-indicator" class="hidden">Loading...</span>
     </div>
 
-    @include('freelancer.skill', ['skills' => $skills])
+    @include('skills.skill', ['skills' => $skills])
 </div>

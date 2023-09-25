@@ -9,11 +9,7 @@
                 </h2>
             </div>
 
-            @if (session('success'))
-                <div class="bg-green-500 text-white p-3 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
+            @include('generic.success')
             @include('freelancer.profile-picture', ['image' => $freelancer->profile_picture ?? null])
 
             <form action="{{ route('freelancer.update') }}" method="POST" enctype="multipart/form-data">
@@ -45,8 +41,7 @@
                     @enderror
                 </div>
 
-                <!-- Skills -- note: validation for skills may require custom handling since it's a dynamic input -->
-                @include('freelancer.top-skill')
+                @include('skills.top-skill', ['domain' => 'freelancer'])
                 <!-- Portfolio URL -->
                 <div class="mt-4">
                     <label for="portfolio_url" class="block text-sm font-medium text-gray-700">Portfolio URL</label>
