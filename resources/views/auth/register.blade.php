@@ -46,6 +46,22 @@
                     </div>
                 </div>
 
+                <div class="mb-4">
+                    <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                    <select id="location" name="location" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm rounded-md">
+                        @foreach($countries as $code => $country)
+                            <option value="{{ $code }}" style="background-image: url('{{ asset('flags/'.$code.'.png') }}'); background-repeat: no-repeat; background-size: 20px 20px; padding-left: 30px;">
+                                {{ $country }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('location')
+                    <div class="text-red-500 mt-2 text-sm">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+
                 <div class="flex items-center justify-between">
                     <div class="text-sm">
                         <a href="{{ route('login') }}" class="text-sm text-gray-600">

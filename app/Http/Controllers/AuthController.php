@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Country;
 use App\Mail\PasswordResetMail;
 use App\Models\User;
 use App\Notifications\PasswordResetSuccess;
@@ -42,7 +43,7 @@ class AuthController extends Controller
 
     public function registerForm()
     {
-        return view('auth.register');
+        return view('auth.register', ['countries' => Country::all()]);
     }
 
     public function register(Request $request)
@@ -51,12 +52,14 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:8',
+            'country' => 'required|string',
         ]);
 
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'location' => $data['country'],
         ]);
 
         // Automatically log the user in after registration
