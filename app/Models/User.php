@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Freelancer::class);
     }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class)->withPivot('role_id')->withTimestamps();
+    }
 }

@@ -13,7 +13,11 @@ class JobController extends Controller
 {
     public function index(Request $request)
     {
-
+        $jobs = Job::with('skills')->get();
+        $jobs->each(function ($job) {
+            $job->budget_bitcoin = $job->budget_satoshis / 100000000;
+        });
+        return view('jobs.search.search', ['jobs' => $jobs]);
     }
 
     public function show(int $id, Request $request)

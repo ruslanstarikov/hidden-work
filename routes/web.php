@@ -7,6 +7,8 @@ use App\Http\Controllers\FreelancerController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\ConversionController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CompanyMemberController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::controller(AuthController::class)
@@ -44,3 +46,23 @@ Route::get('/skills/current/{domain}', [SkillController::class, 'currentSkills']
 
 Route::post('/convert', [ConversionController::class, 'convert'])->name('convert');
 Route::get('/converter', [ConversionController::class, 'converter'])->name('converter');
+
+Route::get('/companies', [CompanyController::class, 'index'])->name('companies');
+Route::get('/company/create', [CompanyController::class, 'form'])->name('companies.create');
+Route::get('/company/edit/{id}', [CompanyController::class, 'form'])->name('companies.edit');
+Route::get('/company/manage/{id}', [CompanyController::class, 'form'])->name('companies.manage.users');
+
+Route::post('/company', [CompanyController::class, 'upsert'])->name('companies.store');
+Route::put('/company/{id?}', [CompanyController::class, 'upsert'])->name('companies.update');
+Route::get('/companies/{id}', [CompanyController::class, 'show'])->name('companies.show');
+Route::post('/company/avatar/{id?}', [CompanyController::class, 'updateAvatar'])->name('companies.update.avatar');
+Route::post('/company/background/{id?}', [CompanyController::class, 'updateBackground'])->name('companies.update.background');
+
+Route::get('/companies/{company}/members', [CompanyMemberController::class, 'index'])->name('company.members.index');
+Route::get('/companies/{company}/members/{member}/edit', [CompanyMemberController::class, 'edit'])->name('company.members.edit');
+Route::put('/companies/{company}/members/{member}', [CompanyMemberController::class, 'update'])->name('company.members.update');
+Route::delete('/companies/{company}/members/{member}', [CompanyMemberController::class, 'destroy'])->name('company.members.destroy');
+
+Route::get('/companies/{company}/members/invite', [CompanyMemberController::class, 'inviteForm'])->name('company.members.invite.form');
+Route::post('/companies/{company}/members/invite', [CompanyMemberController::class, 'invite'])->name('company.members.invite');
+Route::delete('/companies/{company}/members/invite/{invitation}', [CompanyMemberController::class, 'destroyInvite'])->name('company.invitation.destroy');
