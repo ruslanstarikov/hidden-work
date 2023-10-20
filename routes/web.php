@@ -9,6 +9,8 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\ConversionController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CompanyMemberController;
+use App\Http\Controllers\InvitationsController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::controller(AuthController::class)
@@ -66,3 +68,7 @@ Route::delete('/companies/{company}/members/{member}', [CompanyMemberController:
 Route::get('/companies/{company}/members/invite', [CompanyMemberController::class, 'inviteForm'])->name('company.members.invite.form');
 Route::post('/companies/{company}/members/invite', [CompanyMemberController::class, 'invite'])->name('company.members.invite');
 Route::delete('/companies/{company}/members/invite/{invitation}', [CompanyMemberController::class, 'destroyInvite'])->name('company.invitation.destroy');
+
+Route::post('/invitation/{invitation}', [InvitationsController::class, 'accept'])->name('invitation.accept');
+Route::delete('/invitation/{invitation}', [InvitationsController::class, 'reject'])->name('invitation.reject');
+Route::get('/invitations', [InvitationsController::class, 'list'])->name('invitations.list');

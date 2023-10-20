@@ -1,7 +1,16 @@
 @extends('company.members.base')
 
 @section('control-window')
-<div id="control-window" class="min-h-screen container mx-auto mt-6 px-4">
+<!-- Pusher JS Library -->
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<div
+    hx-target="this"
+    hx-swap="outerHTML"
+    hx-get="{{ route('company.members.index', ['company' => $company->id]) }}"
+    hx-select="#control-window"
+    hx-trigger="refresh"
+    id="control-window"
+    class="min-h-screen container mx-auto mt-6 px-4">
     <div class="table-control py-2 px-4">
     <h2 class="text-2xl font-bold mb-4">Members of {{ $company->name }}</h2>
         <div class="mb-6">
@@ -74,4 +83,8 @@
     </div>
 </div>
 
+@endsection
+@section('bottom')
+    @include('scripts.wsbridge', ['channelName' => 'invitation.' . $company->id, 'eventName' => '.InvitationEvent', 'targetElementId' => 'control-window'])
+    @vite(['resources/js/app.js', 'resources/js/echo.js'])
 @endsection
